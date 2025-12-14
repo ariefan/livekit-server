@@ -12,15 +12,8 @@ services:
     image: livekit/livekit-server:latest
     restart: unless-stopped
     network_mode: host
-    command: >
-      --bind 0.0.0.0
-      --port 7880
-      --rtc.port-range-start 50000
-      --rtc.port-range-end 50100
-      --rtc.tcp-port 7881
-      --rtc.use-external-ip
-      --redis-host localhost:6379
-      --keys "APIzFt7kNcvideo: HKdNKYYeM5csKSXwX4gcTl89JIbM23L4"
+    environment:
+      - LIVEKIT_CONFIG={"port":7880,"bind_addresses":["0.0.0.0"],"rtc":{"port_range_start":50000,"port_range_end":50100,"tcp_port":7881,"use_external_ip":true},"redis":{"address":"localhost:6379"},"keys":{"APIzFt7kNcvideo":"HKdNKYYeM5csKSXwX4gcTl89JIbM23L4"}}
     depends_on:
       - redis
 
