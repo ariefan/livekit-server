@@ -1,0 +1,37 @@
+# LiveKit Server Stack for Dokploy
+# Host networking required for WebRTC
+
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    network_mode: host
+    command: redis-server --port 6379
+
+  livekit:
+    image: livekit/livekit-server:latest
+    restart: unless-stopped
+    network_mode: host
+    command: >
+      --bind 0.0.0.0
+      --port 7880
+      --rtc.port-range-start 50000
+      --rtc.port-range-end 50100
+      --rtc.tcp-port 7881
+      --rtc.use-external-ip
+      --redis-host localhost:6379
+      --keys "APIzFt7kNcvideo: HKdNKYYeM5csKSXwX4gcTl89JIbM23L4"
+    depends_on:
+      - redis
+
+  egress:
+    image: livekit/egress:latest
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - SYS_ADMIN
+    environment:
+      - EGRESS_CONFIG_BODY={"api_key":"APIzFt7kNcvideo","api_secret":"HKdNKYYeM5csKSXwX4gcTl89JIbM23L4","ws_url":"ws://localhost:7880","redis":{"address":"localhost:6379"},"storage":{"s3":{"access_key":"fyWs9ZH9LQr6lUzXT8A2","secret":"RLHfybuWpWiMt6j78YfiUjaLjRQ4ACQLFBKW56Lo","region":"ap-southeast-1","bucket":"livekit-uploads","endpoint":"https://x8r8.sg03.idrivee2-90.com","force_path_style":true}},"logging":{"level":"info"}}
+    depends_on:
+      - livekit
+      - redis

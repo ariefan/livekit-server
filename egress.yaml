@@ -1,0 +1,18 @@
+api_key: APIzFt7kNcvideo
+api_secret: HKdNKYYeM5csKSXwX4gcTl89JIbM23L4
+ws_url: ws://127.0.0.1:7880
+
+redis:
+  address: 127.0.0.1:6379
+
+# S3 storage configuration (iDrive E2)
+s3:
+  access_key: fyWs9ZH9LQr6lUzXT8A2
+  secret: RLHfybuWpWiMt6j78YfiUjaLjRQ4ACQLFBKW56Lo
+  region: ap-southeast-1
+  bucket: livekit-uploads
+  endpoint: https://x8r8.sg03.idrivee2-90.com
+  force_path_style: true
+
+logging:
+  level: info
